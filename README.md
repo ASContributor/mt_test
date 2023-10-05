@@ -16,4 +16,4 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 <img src="assets/Screenshot_1696521502.png"  width="200" height="400" />
-<img src="https://github.com/ASContributor/flutter_add_task/assets/43782542/1861970b-9c71-4226-a855-08ee0b64ea0b.png"  width="200" height="400" />
+<img src="assets/Screenshot_1696521506.png"  width="200" height="400" />
