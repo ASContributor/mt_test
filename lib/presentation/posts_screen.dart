@@ -87,8 +87,9 @@ class PostsView extends StatelessWidget {
       onTap: () {
         Navigator.push(
             context,
-            MaterialPageRoute(
-                builder: (context) => SecondTab(
+            PageRouteBuilder(
+                transitionDuration: Duration(milliseconds: 100),
+                pageBuilder: (context, _, ___) => SecondTab(
                       postData: post,
                     )));
       },
