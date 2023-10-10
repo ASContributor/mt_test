@@ -24,6 +24,9 @@ class SecondTab extends StatelessWidget {
           ]),
           // icon: Icon(Icons.arrow_back_ios_new_outlined, semanticLabel: 'Back'),
           onPressed: () {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Old State Loaded')),
+            );
             Navigator.pop(context);
           },
         ),

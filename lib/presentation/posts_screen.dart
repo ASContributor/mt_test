@@ -26,6 +26,16 @@ class PostsView extends StatelessWidget {
     BlocProvider.of<PostsCubit>(context).loadPosts();
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        label: const Row(
+          children: [
+            Text('Load Next 6 Item'),
+            Icon(Icons.arrow_forward_ios),
+          ],
+        ),
+        backgroundColor: Colors.grey,
+        onPressed: () => BlocProvider.of<PostsCubit>(context).loadPosts(),
+      ),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 81, 81, 81),
         centerTitle: true,
@@ -42,35 +52,16 @@ class PostsView extends StatelessWidget {
       }
 
       List<Post> posts = [];
-      bool isLoading = false;
 
       if (state is PostsLoading) {
         posts = state.oldPosts;
-        isLoading = true;
       } else if (state is PostsLoaded) {
         posts = state.posts;
       }
 
-      return ListView.separated(
-        controller: scrollController,
-        itemBuilder: (context, index) {
-          if (index < posts.length)
-            return _post(posts[index], context);
-          else {
-            Timer(Duration(minutes: 1), () {
-              scrollController
-                  .jumpTo(scrollController.position.maxScrollExtent);
-            });
-
-            return _loadingIndicator();
-          }
-        },
-        separatorBuilder: (context, index) {
-          return Divider(
-            color: Colors.grey[400],
-          );
-        },
-        itemCount: posts.length + (isLoading ? 1 : 0),
+      return ListView.builder(
+        itemBuilder: (context, index) => _post(posts[index], context),
+        itemCount: posts.length,
       );
     });
   }
@@ -79,7 +70,10 @@ class PostsView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Center(
-          child: CircularProgressIndicator(backgroundColor: Colors.black)),
+          child: CircularProgressIndicator(
+        backgroundColor: Colors.black87,
+        color: Colors.grey,
+      )),
     );
   }
 
