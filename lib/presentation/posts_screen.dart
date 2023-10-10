@@ -57,7 +57,7 @@ class PostsView extends StatelessWidget {
           if (index < posts.length)
             return _post(posts[index], context);
           else {
-            Timer(Duration(milliseconds: 30), () {
+            Timer(Duration(minutes: 1), () {
               scrollController
                   .jumpTo(scrollController.position.maxScrollExtent);
             });
@@ -78,7 +78,8 @@ class PostsView extends StatelessWidget {
   Widget _loadingIndicator() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Center(child: CircularProgressIndicator()),
+      child: Center(
+          child: CircularProgressIndicator(backgroundColor: Colors.black)),
     );
   }
 

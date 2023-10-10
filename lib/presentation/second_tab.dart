@@ -11,8 +11,18 @@ class SecondTab extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 81, 81, 81),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new_outlined, semanticLabel: 'Back'),
+        leading: TextButton(
+          child: Column(children: [
+            Icon(
+              Icons.arrow_back_ios_new_outlined,
+              color: Colors.white,
+            ),
+            Text(
+              'Back',
+              style: TextStyle(color: Colors.white),
+            )
+          ]),
+          // icon: Icon(Icons.arrow_back_ios_new_outlined, semanticLabel: 'Back'),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -37,7 +47,10 @@ class SecondTab extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                postData.first_name + ' ' + postData.last_name,
+                ' ${postData.id}. ' +
+                    postData.first_name +
+                    ' ' +
+                    postData.last_name,
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
               ),
               SizedBox(
