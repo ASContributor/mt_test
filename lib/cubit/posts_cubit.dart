@@ -30,7 +30,7 @@ class PostsCubit extends Cubit<PostsState> {
       var posts = (state as PostsLoading).oldPosts;
       //   posts.add(newPosts);
       posts.addAll(newPosts);
-      posts = [];
+
       emit(PostsLoaded(posts));
       //  print('object ${posts[0][0]}');
     });

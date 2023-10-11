@@ -12,7 +12,7 @@ class SecondTab extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 81, 81, 81),
         leading: TextButton(
-          child: const Row(children: [
+          child: const Column(children: [
             Icon(
               Icons.arrow_back_ios_new_outlined,
               color: Colors.white,
@@ -22,11 +22,7 @@ class SecondTab extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             )
           ]),
-          // icon: Icon(Icons.arrow_back_ios_new_outlined, semanticLabel: 'Back'),
           onPressed: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Old State Loaded')),
-            );
             Navigator.pop(context);
           },
         ),

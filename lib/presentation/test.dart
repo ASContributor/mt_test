@@ -2,31 +2,61 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mt_test/bloc/posts_bloc.dart';
 import 'package:mt_test/presentation/second_tab.dart';
 import 'package:toast/toast.dart';
-// import '../cubit/posts_cubit.dart';
+import '../cubit/posts_cubit.dart';
 import '../data/models/post.dart';
 
 class PostsView extends StatelessWidget {
   final scrollController = ScrollController();
-
-  void setupScrollController(context) {
-    scrollController.addListener(() {
-      if (scrollController.position.atEdge) {
-        if (scrollController.position.pixels != 0) {
-          BlocProvider.of<PostsBloc>(context).add(LoadPostEvent());
-        }
-      }
-    });
-  }
+  bool IsActivePage = false;
 
   @override
   Widget build(BuildContext context) {
-    setupScrollController(context);
-    BlocProvider.of<PostsBloc>(context).add(LoadPostEvent());
+    BlocProvider.of<PostsCubit>(context).loadPosts(IsActivePage);
 
     return Scaffold(
+      bottomNavigationBar: BottomAppBar(
+          child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: 40,
+          color: Color.fromARGB(255, 132, 97, 97),
+          child: Row(
+            children: [
+              Expanded(
+                  child: IconButton(
+                onPressed: () {
+                  IsActivePage = true;
+                  BlocProvider.of<PostsCubit>(context).loadPosts(IsActivePage);
+                },
+                icon: Icon(Icons.arrow_back_ios),
+              )),
+              Expanded(child: Text('Total Iteam')),
+              Expanded(
+                  child: IconButton(
+                onPressed: () {
+                  IsActivePage = true;
+                  BlocProvider.of<PostsCubit>(context).loadPosts(IsActivePage);
+                },
+                icon: Icon(Icons.arrow_forward_ios),
+              ))
+            ],
+          ),
+        ),
+      )),
+      // floatingActionButton: FloatingActionButton.extended(
+      //     label: const Row(
+      //       children: [
+      //         Text('Load Next 6 Item'),
+      //         Icon(Icons.arrow_forward_ios),
+      //       ],
+      //     ),
+      //     backgroundColor: Colors.grey,
+      //     onPressed: () => {
+      //           BlocProvider.of<PostsCubit>(context).loadPosts(),
+      //         }),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 81, 81, 81),
         centerTitle: true,
@@ -37,51 +67,34 @@ class PostsView extends StatelessWidget {
   }
 
   Widget _postList() {
-    return BlocBuilder<PostsBloc, PostsState>(builder: (context, state) {
+    return BlocBuilder<PostsCubit, PostsState>(builder: (context, state) {
       if (state is PostsLoading && state.isFirstFetch) {
         return _loadingIndicator();
       }
 
       List<Post> posts = [];
-      bool isLoading = false;
 
       if (state is PostsLoading) {
         posts = state.oldPosts;
-        isLoading = true;
       } else if (state is PostsLoaded) {
         posts = state.posts;
-      } else if (state is FailedToLoadPost) {
-        print('${state.error}');
       }
 
-      return ListView.separated(
-        controller: scrollController,
-        itemBuilder: (context, index) {
-          if (index < posts.length)
-            return _post(posts[index], context);
-          else {
-            Timer(Duration(milliseconds: 30), () {
-              scrollController
-                  .jumpTo(scrollController.position.maxScrollExtent);
-            });
-
-            return _loadingIndicator();
-          }
-        },
-        separatorBuilder: (context, index) {
-          return Divider(
-            color: Colors.grey[400],
-          );
-        },
-        itemCount: posts.length + (isLoading ? 1 : 0),
+      return ListView.builder(
+        itemBuilder: (context, index) => _post(posts[index], context),
+        itemCount: posts.length,
       );
     });
   }
 
   Widget _loadingIndicator() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Center(child: CircularProgressIndicator()),
+    return const Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Center(
+          child: CircularProgressIndicator(
+        backgroundColor: Colors.black87,
+        color: Colors.grey,
+      )),
     );
   }
 
