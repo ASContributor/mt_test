@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mt_test/presentation/second_tab.dart';
-
+import 'package:toast/toast.dart';
 import '../cubit/posts_cubit.dart';
 import '../data/models/post.dart';
 
@@ -27,15 +27,16 @@ class PostsView extends StatelessWidget {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        label: const Row(
-          children: [
-            Text('Load Next 6 Item'),
-            Icon(Icons.arrow_forward_ios),
-          ],
-        ),
-        backgroundColor: Colors.grey,
-        onPressed: () => BlocProvider.of<PostsCubit>(context).loadPosts(),
-      ),
+          label: const Row(
+            children: [
+              Text('Load Next 6 Item'),
+              Icon(Icons.arrow_forward_ios),
+            ],
+          ),
+          backgroundColor: Colors.grey,
+          onPressed: () => {
+                BlocProvider.of<PostsCubit>(context).loadPosts(),
+              }),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 81, 81, 81),
         centerTitle: true,
