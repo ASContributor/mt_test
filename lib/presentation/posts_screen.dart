@@ -9,34 +9,54 @@ import '../data/models/post.dart';
 
 class PostsView extends StatelessWidget {
   final scrollController = ScrollController();
-
-  void setupScrollController(context) {
-    scrollController.addListener(() {
-      if (scrollController.position.atEdge) {
-        if (scrollController.position.pixels != 0) {
-          BlocProvider.of<PostsCubit>(context).loadPosts();
-        }
-      }
-    });
-  }
+  bool IsActivePage = false;
 
   @override
   Widget build(BuildContext context) {
-    setupScrollController(context);
-    BlocProvider.of<PostsCubit>(context).loadPosts();
+    BlocProvider.of<PostsCubit>(context).loadPosts(IsActivePage);
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-          label: const Row(
+      bottomNavigationBar: BottomAppBar(
+          child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: 40,
+          color: Color.fromARGB(255, 132, 97, 97),
+          child: Row(
             children: [
-              Text('Load Next 6 Item'),
-              Icon(Icons.arrow_forward_ios),
+              Expanded(
+                  child: IconButton(
+                onPressed: () {
+                  IsActivePage = true;
+                  BlocProvider.of<PostsCubit>(context).loadPosts(IsActivePage);
+                },
+                icon: Icon(Icons.arrow_back_ios),
+              )),
+              Expanded(child: Text('Total Iteam')),
+              Expanded(
+                  child: IconButton(
+                onPressed: () {
+                  IsActivePage = true;
+                  BlocProvider.of<PostsCubit>(context).loadPosts(IsActivePage);
+                },
+                icon: Icon(Icons.arrow_forward_ios),
+              ))
             ],
           ),
-          backgroundColor: Colors.grey,
-          onPressed: () => {
-                BlocProvider.of<PostsCubit>(context).loadPosts(),
-              }),
+        ),
+      )),
+      // floatingActionButton: FloatingActionButton.extended(
+      //     label: const Row(
+      //       children: [
+      //         Text('Load Next 6 Item'),
+      //         Icon(Icons.arrow_forward_ios),
+      //       ],
+      //     ),
+      //     backgroundColor: Colors.grey,
+      //     onPressed: () => {
+      //           BlocProvider.of<PostsCubit>(context).loadPosts(),
+      //         }),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 81, 81, 81),
         centerTitle: true,
@@ -68,8 +88,8 @@ class PostsView extends StatelessWidget {
   }
 
   Widget _loadingIndicator() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+    return const Padding(
+      padding: EdgeInsets.all(8.0),
       child: Center(
           child: CircularProgressIndicator(
         backgroundColor: Colors.black87,

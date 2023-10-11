@@ -12,7 +12,7 @@ class SecondTab extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 81, 81, 81),
         leading: TextButton(
-          child: Column(children: [
+          child: const Row(children: [
             Icon(
               Icons.arrow_back_ios_new_outlined,
               color: Colors.white,

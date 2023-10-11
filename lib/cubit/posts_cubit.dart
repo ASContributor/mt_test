@@ -11,12 +11,13 @@ class PostsCubit extends Cubit<PostsState> {
   int page = 1;
   final PostsRepository repository;
 
-  void loadPosts() {
+  void loadPosts(isActivePage) {
     if (state is PostsLoading) return;
 
     final currentState = state;
 
     var oldPosts = <Post>[];
+    var AllPosts = <Post>[];
     if (currentState is PostsLoaded) {
       oldPosts = currentState.posts;
     }
@@ -26,10 +27,12 @@ class PostsCubit extends Cubit<PostsState> {
     repository.fetchPosts(page).then((newPosts) {
       page++;
 
-      final posts = (state as PostsLoading).oldPosts;
+      var posts = (state as PostsLoading).oldPosts;
+      //   posts.add(newPosts);
       posts.addAll(newPosts);
-
+      posts = [];
       emit(PostsLoaded(posts));
+      //  print('object ${posts[0][0]}');
     });
   }
 }
