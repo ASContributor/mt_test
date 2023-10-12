@@ -57,9 +57,19 @@ class PostsView extends StatelessWidget {
       return ListView.separated(
         controller: scrollController,
         itemBuilder: (context, index) {
-          if (index < posts.length)
-            return _post(posts[index], context);
-          else {
+          if (index < posts.length) {
+            return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                          transitionDuration: Duration(milliseconds: 100),
+                          pageBuilder: (context, _, ___) => SecondTab(
+                                postData: posts[index],
+                              )));
+                },
+                child: _post(posts[index], context));
+          } else {
             Timer(Duration(milliseconds: 30), () {
               scrollController
                   .jumpTo(scrollController.position.maxScrollExtent);
@@ -70,7 +80,7 @@ class PostsView extends StatelessWidget {
         },
         separatorBuilder: (context, index) {
           return Divider(
-            color: Colors.grey[400],
+            color: Colors.white,
           );
         },
         itemCount: posts.length + (isLoading ? 1 : 0),
@@ -86,51 +96,45 @@ class PostsView extends StatelessWidget {
   }
 
   Widget _post(Post post, BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            PageRouteBuilder(
-                transitionDuration: Duration(milliseconds: 100),
-                pageBuilder: (context, _, ___) => SecondTab(
-                      postData: post,
-                    )));
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        margin: const EdgeInsets.all(10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Hero(
-              tag: 'profile',
-              child: CircleAvatar(
-                radius: 50,
-                backgroundColor: Colors.grey,
-                backgroundImage: NetworkImage('${post.avatar}'),
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          // margin: const EdgeInsets.all(10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Hero(
+                tag: 'profile',
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Colors.grey,
+                  backgroundImage: NetworkImage('${post.avatar}'),
+                ),
               ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.6,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    post.first_name + ' ' + post.last_name,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 25,
-                        color: Color.fromARGB(255, 91, 91, 91)),
-                  ),
-                  Text(
-                    '  ' + post.email,
-                    style: TextStyle(
-                        fontSize: 20, color: Color.fromARGB(255, 91, 91, 91)),
-                  )
-                ],
+              Container(
+                width: MediaQuery.of(context).size.width * 0.6,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      post.first_name + ' ' + post.last_name,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 25,
+                          color: Color.fromARGB(255, 91, 91, 91)),
+                    ),
+                    Text(
+                      '  ' + post.email,
+                      style: TextStyle(
+                          fontSize: 20, color: Color.fromARGB(255, 91, 91, 91)),
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
