@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mt_test/bloc/posts_bloc.dart';
 import 'package:mt_test/presentation/posts_screen.dart';
 import 'package:toast/toast.dart';
+import 'Routes/generated_route.dart';
 import 'cubit/posts_cubit.dart';
 import 'data/repositories/posts_respository.dart';
 import 'data/services/posts_service.dart';
@@ -26,10 +27,8 @@ class MyApp extends StatelessWidget {
       theme:
           ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey)),
       debugShowCheckedModeBanner: false,
-      home: BlocProvider(
-        create: (context) => PostsBloc(repository),
-        child: PostsView(),
-      ),
+      initialRoute: '/',
+      onGenerateRoute: RouteGenerated(repository: repository).generatedRoute,
     );
   }
 }

@@ -60,13 +60,11 @@ class PostsView extends StatelessWidget {
           if (index < posts.length) {
             return GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                          transitionDuration: Duration(milliseconds: 100),
-                          pageBuilder: (context, _, ___) => SecondTab(
-                                postData: posts[index],
-                              )));
+                  Navigator.pushNamed(
+                    context,
+                    '/Secondpage',
+                    arguments: posts[index],
+                  );
                 },
                 child: _post(posts[index], context));
           } else {
