@@ -10,7 +10,7 @@ packages:
     source: hosted
     version: "2.11.0"
   bloc:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: bloc
       sha256: "6f1b87b6eca9041d5672b6e29273cd1594db48ebb66fd2471066e9f3c3a516bd"
@@ -71,7 +71,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_bloc:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_bloc
       sha256: cdd1351ced09eeb46cfa7946e095b7679344af927415ca9cd972928fa6d5b23f
